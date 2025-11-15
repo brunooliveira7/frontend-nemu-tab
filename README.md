@@ -4,7 +4,7 @@ Este é um projeto de frontend desenvolvido com React, TypeScript e Vite para vi
 
 ## Visão Geral
 
-A aplicação busca dados de sessões e seus respectivos "touch points" (pontos de contato) de uma API. Em seguida, processa esses dados para exibi-los de forma clara em uma grade de dados, onde cada linha representa um ponto de contato dentro de uma sessão de usuário. A jornada completa do usuário é exibida, e a tabela permite o agrupamento por diferentes canais de marketing.
+A aplicação busca dados de sessões e seus respectivos "touch points" de uma API. Em seguida, processa esses dados para exibi-los de forma clara em uma grade de dados, onde cada linha representa um ponto de contato dentro de uma sessão de usuário. A jornada completa do usuário é exibida, e a tabela permite o agrupamento por diferentes canais de marketing.
 
 ## Tecnologias Utilizadas
 
