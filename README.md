@@ -1,73 +1,58 @@
-# React + TypeScript + Vite
+# Frontend - Jornada de Sessões
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é um projeto de frontend desenvolvido com React, TypeScript e Vite para visualizar a jornada de sessões de usuários. A aplicação consome uma API local para buscar os dados e os exibe em uma tabela interativa e agrupável usando o Material-UI Data Grid.
 
-Currently, two official plugins are available:
+## Visão Geral
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+A aplicação busca dados de sessões e seus respectivos "touch points" (pontos de contato) de uma API. Em seguida, processa esses dados para exibi-los de forma clara em uma grade de dados, onde cada linha representa um ponto de contato dentro de uma sessão de usuário. A jornada completa do usuário é exibida, e a tabela permite o agrupamento por diferentes canais de marketing.
 
-## React Compiler
+## Tecnologias Utilizadas
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **React:** Biblioteca para construção de interfaces de usuário.
+- **TypeScript:** Superset de JavaScript que adiciona tipagem estática.
+- **Vite:** Ferramenta de build moderna e rápida para desenvolvimento frontend.
+- **TanStack Query (React Query):** Para fetching, cache e gerenciamento de estado de dados do servidor.
+- **Axios:** Cliente HTTP para realizar requisições à API.
+- **Material-UI (MUI) & MUI X Data Grid:** Componentes de UI e uma grade de dados avançada para exibir as informações.
+- **Tailwind CSS:** Framework de CSS para estilização rápida.
+- **pnpm:** Gerenciador de pacotes rápido e eficiente em uso de disco.
 
-## Expanding the ESLint configuration
+## Pré-requisitos
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Antes de começar, certifique-se de ter o seguinte instalado em sua máquina:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [Node.js](https://nodejs.org/en/) (versão 18 ou superior)
+- [pnpm](https://pnpm.io/installation)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Além disso, é necessário que o **serviço de backend esteja em execução** e servindo os dados das jornadas na rota `http://localhost:3333/api/journeys`.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Instruções de Execução
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Siga os passos abaixo para executar o projeto em seu ambiente de desenvolvimento local.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1.  **Clone o repositório:**
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    ```bash
+    git clone <URL_DO_SEU_REPOSITORIO>
+    cd frontend-nemu-tab
+    ```
+
+2.  **Instale as dependências:**
+    Use o `pnpm` para instalar todas as dependências do projeto.
+
+    ```bash
+    pnpm install
+    ```
+
+3.  **Execute o servidor de desenvolvimento:**
+    Este comando iniciará o servidor de desenvolvimento do Vite.
+
+    ```bash
+    pnpm dev
+    ```
+
+4.  **Acesse a aplicação:**
+    Após a execução do comando acima, a aplicação estará disponível no seu navegador no endereço:
+    http://localhost:5173
+
+Lembre-se que a aplicação precisa se comunicar com o backend na porta `3333` para funcionar corretamente.
