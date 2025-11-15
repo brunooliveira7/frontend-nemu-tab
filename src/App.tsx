@@ -5,6 +5,9 @@ import axios from "axios";
 //Busca na API
 const fetchJourneys = async (): Promise<SessionData[]> => {
   console.log("Buscando dados da API...");
+
+  //Delay - simulação
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   
   const { data } = await axios.get("http://localhost:3333/api/journeys");
   return data;
