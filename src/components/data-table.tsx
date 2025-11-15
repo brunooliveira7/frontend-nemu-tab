@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 
 export interface TouchPoint {
   channel: string;
-  created_at: string | Date; 
+  created_at: string | Date;
 }
 
 export interface SessionData {
@@ -91,7 +91,7 @@ export default function DataTable({ data }: DataTableProps) {
   return (
     <Paper
       sx={{
-        height: 600,
+        height: "auto",
         width: "100%",
         justifyContent: "center",
         align: "right",
@@ -100,7 +100,7 @@ export default function DataTable({ data }: DataTableProps) {
       <DataGrid
         rows={rows}
         columns={columns}
-        experimentalFeatures={{ }}
+        experimentalFeatures={{}}
         initialState={
           {
             pagination: { paginationModel: { pageSize: 10 } },
