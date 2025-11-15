@@ -2,22 +2,23 @@ import { useQuery } from "@tanstack/react-query";
 import DataTable, { type SessionData } from "./components/data-table.tsx";
 import axios from "axios";
 
-// 1. A lógica de busca de dados é encapsulada em uma função async.
+//Busca na API
 const fetchJourneys = async (): Promise<SessionData[]> => {
   console.log("Buscando dados da API...");
+  
   const { data } = await axios.get("http://localhost:3333/api/journeys");
   return data;
 };
 
 export default function App() {
-  // 2. O hook useQuery gerencia automaticamente o carregamento, erros e os dados.
+  //Carregamento, erros e os dados.
   const {
     data: sessions,
     isLoading,
     isError,
   } = useQuery({ queryKey: ["journeys"], queryFn: fetchJourneys });
 
-  // Log para depuração: veja o que está no estado 'sessions'
+  //Depuração
   console.log({ isLoading, isError, sessions });
 
   return (
