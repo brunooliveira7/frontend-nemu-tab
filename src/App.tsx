@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import DataTable, { type SessionData } from "./components/tab.tsx";
+import DataTable, { type SessionData } from "./components/data-table.tsx";
 
 // Dados de exemplo que viriam da sua API
 const apiData: SessionData[] = [

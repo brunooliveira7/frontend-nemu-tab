@@ -22,23 +22,41 @@ interface DataTableProps {
 }
 
 const columns: GridColDef[] = [
-  { field: "journey", headerName: "Jornada", width: 400, groupable: false },
+  {
+    field: "journey",
+    headerName: "Jornada",
+    width: 400,
+    groupable: false,
+    headerAlign: "center",
+  },
   {
     field: "touchPointCount",
-    headerName: "Qtd. Touch Points",
+    headerName: "Touch Points",
     type: "number",
     width: 150,
     groupable: false,
+    headerAlign: "left",
   },
-  { field: "medium", headerName: "Medium", width: 150 },
-  { field: "campaign", headerName: "Campaign", width: 150 },
-  { field: "content", headerName: "Content", width: 150 },
+  { field: "medium", headerName: "Medium", width: 150, headerAlign: "left" },
+  {
+    field: "campaign",
+    headerName: "Campaign",
+    width: 150,
+    headerAlign: "left",
+  },
+  {
+    field: "content",
+    headerName: "Content",
+    width: 150,
+    headerAlign: "left",
+  },
 ];
 
 const initialGroupingModel: GridColumnGroupingModel = [
   { groupId: "medium", children: [{ field: "medium" }] },
   { groupId: "campaign", children: [{ field: "campaign" }] },
 ];
+
 export default function DataTable({ data }: DataTableProps) {
   const rows = useMemo(
     () =>
@@ -46,7 +64,7 @@ export default function DataTable({ data }: DataTableProps) {
         session.touchPoints.map((touchPoint, index) => {
           const parts = touchPoint.channel.split("-");
           return {
-            id: `${session.sessionId}-${index}`, // ID único para cada linha (touchpoint)
+            id: `${session.sessionId}-${index}`,
             sessionId: session.sessionId,
             journey: session.touchPoints.map((tp) => tp.channel).join(" > "),
             touchPointCount: session.touchPoints.length,
@@ -61,7 +79,14 @@ export default function DataTable({ data }: DataTableProps) {
   );
 
   return (
-    <Paper sx={{ height: 600, width: "100%" }}>
+    <Paper
+      sx={{
+        height: 600,
+        width: "100%",
+        justifyContent: "center",
+        align: "right",
+      }}
+    >
       <DataGrid
         rows={rows}
         columns={columns}
@@ -75,7 +100,18 @@ export default function DataTable({ data }: DataTableProps) {
           } as any
         }
         pageSizeOptions={[5, 10, 25]}
-        sx={{ border: 0 }}
+        sx={{
+          border: 0,
+          "& .MuiDataGrid-columnHeaderTitle": {
+            fontWeight: "bold",
+            width: "100%",
+            textAlign: "center",
+          },
+          "& .MuiDataGrid-cell": {
+            textAlign: "left",
+            justifyContent: "flex-start", 
+          },
+        }}
       />
     </Paper>
   );
