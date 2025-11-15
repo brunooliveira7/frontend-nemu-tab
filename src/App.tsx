@@ -1,58 +1,34 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import DataTable, { type SessionData } from "./components/data-table.tsx";
+import axios from "axios";
 
-// Dados de exemplo que viriam da sua API
-const apiData: SessionData[] = [
-  {
-    sessionId: "nemu__0B1wVx9XR",
-    touchPoints: [
-      {
-        channel: "facebook-SiteLink-1",
-        created_at: "2025-05-01T03:03:54.000Z",
-      },
-      {
-        channel: "facebook-SiteLink-2",
-        created_at: "2025-05-01T20:38:23.000Z",
-      },
-      { channel: "organic", created_at: "2025-05-01T04:15:44.000Z" },
-      {
-        channel: "facebookads-SiteLink-4",
-        created_at: "2025-05-11T21:34:00.000Z",
-      },
-      {
-        channel: "instagram-stories-promo",
-        created_at: "2025-05-26T18:37:55.000Z",
-      },
-    ],
-  },
-  {
-    sessionId: "nemu__A9aZ4fG3K",
-    touchPoints: [
-      {
-        channel: "facebook-SiteLink-1",
-        created_at: "2025-06-10T11:00:00.000Z",
-      },
-      {
-        channel: "instagram-reels-tutorial",
-        created_at: "2025-06-11T15:20:10.000Z",
-      },
-    ],
-  },
-];
+// 1. A lógica de busca de dados é encapsulada em uma função async.
+const fetchJourneys = async (): Promise<SessionData[]> => {
+  console.log("Buscando dados da API...");
+  const { data } = await axios.get("http://localhost:3333/api/journeys");
+  return data;
+};
 
 export default function App() {
-  const [sessions, setSessions] = useState<SessionData[]>([]);
+  // 2. O hook useQuery gerencia automaticamente o carregamento, erros e os dados.
+  const {
+    data: sessions,
+    isLoading,
+    isError,
+  } = useQuery({ queryKey: ["journeys"], queryFn: fetchJourneys });
 
-  useEffect(() => {
-    // TODO: Substituir pela chamada real da sua API
-    // Ex: fetch('/api/sessions').then(res => res.json()).then(data => setSessions(data));
-    setSessions(apiData);
-  }, []);
+  // Log para depuração: veja o que está no estado 'sessions'
+  console.log({ isLoading, isError, sessions });
 
   return (
     <>
       <div className="m-6">
-        <DataTable data={sessions} />
+        <h1 className="text-2xl font-bold mb-4">Jornada de Sessões</h1>
+        {isLoading && <p>Carregando dados...</p>}
+        {isError && (
+          <p style={{ color: "red" }}>Falha ao carregar os dados da jornada.</p>
+        )}
+        {sessions && <DataTable data={sessions} />}
       </div>
     </>
   );

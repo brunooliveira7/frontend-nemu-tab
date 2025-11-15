@@ -108,7 +108,7 @@ export default function DataTable({ data }: DataTableProps) {
         }
         pageSizeOptions={[5, 10, 25]}
         sx={{
-          border: 0,
+          border: 1,
           "& .MuiDataGrid-columnHeaderTitle": {
             fontWeight: "bold",
             width: "100%",
