@@ -1,20 +1,30 @@
 import { useMemo } from "react";
 import {
   DataGrid,
+  type GridInitialState,
   type GridColDef,
-  type GridColumnGroupingModel,
 } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
 
-// Tipos para os dados da API
 export interface TouchPoint {
   channel: string;
-  created_at: string;
+  created_at: string | Date; 
 }
 
 export interface SessionData {
   sessionId: string;
   touchPoints: TouchPoint[];
+}
+
+interface GridRow {
+  id: string;
+  sessionId: string;
+  journey: string;
+  touchPointCount: number;
+  channel: string;
+  medium: string;
+  campaign: string;
+  content: string;
 }
 
 interface DataTableProps {
@@ -52,32 +62,32 @@ const columns: GridColDef[] = [
   },
 ];
 
-const initialGroupingModel: GridColumnGroupingModel = [
-  { groupId: "medium", children: [{ field: "medium" }] },
-  { groupId: "campaign", children: [{ field: "campaign" }] },
-];
+const useGridData = (sessions: SessionData[]): GridRow[] => {
+  return useMemo(() => {
+    return sessions.flatMap((session) => {
+      const journeyString = session.touchPoints
+        .map((tp) => tp.channel)
+        .join(" > ");
+      return session.touchPoints.map((touchPoint, index) => {
+        const [medium = "N/A", campaign = "N/A", content = "N/A"] =
+          touchPoint.channel.split("-");
+        return {
+          id: `${session.sessionId}-${index}`,
+          sessionId: session.sessionId,
+          journey: journeyString,
+          touchPointCount: session.touchPoints.length,
+          channel: touchPoint.channel,
+          medium,
+          campaign,
+          content,
+        };
+      });
+    });
+  }, [sessions]);
+};
 
 export default function DataTable({ data }: DataTableProps) {
-  const rows = useMemo(
-    () =>
-      data.flatMap((session) =>
-        session.touchPoints.map((touchPoint, index) => {
-          const parts = touchPoint.channel.split("-");
-          return {
-            id: `${session.sessionId}-${index}`,
-            sessionId: session.sessionId,
-            journey: session.touchPoints.map((tp) => tp.channel).join(" > "),
-            touchPointCount: session.touchPoints.length,
-            channel: touchPoint.channel,
-            medium: parts[0] || "N/A",
-            campaign: parts[1] || "N/A",
-            content: parts[2] || "N/A",
-          };
-        })
-      ),
-    [data]
-  );
-
+  const rows = useGridData(data);
   return (
     <Paper
       sx={{
@@ -90,14 +100,11 @@ export default function DataTable({ data }: DataTableProps) {
       <DataGrid
         rows={rows}
         columns={columns}
-        experimentalFeatures={{ rowGrouping: true } as any}
+        experimentalFeatures={{ }}
         initialState={
           {
-            rowGrouping: {
-              model: initialGroupingModel,
-            },
             pagination: { paginationModel: { pageSize: 10 } },
-          } as any
+          } satisfies GridInitialState
         }
         pageSizeOptions={[5, 10, 25]}
         sx={{
@@ -109,7 +116,7 @@ export default function DataTable({ data }: DataTableProps) {
           },
           "& .MuiDataGrid-cell": {
             textAlign: "left",
-            justifyContent: "flex-start", 
+            justifyContent: "flex-start",
           },
         }}
       />
