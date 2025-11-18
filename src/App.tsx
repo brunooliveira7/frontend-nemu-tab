@@ -8,21 +8,17 @@ const fetchJourneys = async (): Promise<SessionData[]> => {
 
   //Delay - simulação
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  
+
   const { data } = await axios.get("http://localhost:3333/api/journeys");
   return data;
 };
 
 export default function App() {
-  //Carregamento, erros e os dados.
   const {
     data: sessions,
     isLoading,
     isError,
   } = useQuery({ queryKey: ["journeys"], queryFn: fetchJourneys });
-
-  //Depuração
-  console.log({ isLoading, isError, sessions });
 
   return (
     <>
